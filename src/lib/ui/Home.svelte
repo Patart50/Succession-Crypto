@@ -39,7 +39,7 @@
   </p>
 
   <p class="muted small">
-    Version de développement : l'inventaire, la checklist et la lettre arrivent dans les prochaines versions. Méthode et limites :
+    Version de développement : l'<a href="#inventaire">inventaire</a> est disponible ; la checklist et la lettre arrivent dans les prochaines versions. Méthode et limites :
     <a href="#a-propos">À propos</a>.
   </p>
 </section>

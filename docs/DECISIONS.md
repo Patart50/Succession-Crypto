@@ -28,3 +28,6 @@ Svelte 5 + Vite + TypeScript + Vitest ; commun-crypto en dépendance git épingl
 
 ## D-009 — Thème non mémorisé (16 nov. 2026, J1, à valider en revue de PR)
 Application stricte de D-002 : le choix du thème (automatique, clair, sombre) n'est pas enregistré. Il suit le système par défaut et un choix manuel ne dure que le temps de l'onglet. Les autres outils mémorisent ce réglage ; ici, la règle « rien n'est écrit dans le navigateur » reste vérifiable sans exception. Le service worker ne met en cache que le code de l'outil.
+
+## D-010 — Détecteur de secrets étendu (16 nov. 2026, J2, à valider en revue de PR)
+Précise D-001 sans la remplacer. Le détecteur refuse aussi : les sauvegardes abrégées (4 premières lettres des mots BIP39), une phrase avec une faute de frappe (11 mots sur 12), une phrase coupée entre deux champs quelconques d'un même emplacement (chaque paire de champs vérifiée dans les deux ordres), et les clés privées (hexadécimal 64, WIF, xprv et apparentées, base58 long). Une saisie suspecte est effacée à la frappe ; un secret coupé entre deux champs entraîne l'effacement de tous les champs texte du formulaire, faute de savoir lesquels sont en cause. Listes BIP39 copiées depuis bitcoin/bips et vérifiées par empreinte SHA-256, sans dépendance npm. Limites documentées (SPEC § 6) : trois champs ou plus, deux fautes ou plus, mots de passe et codes PIN.

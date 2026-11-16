@@ -1,5 +1,13 @@
 # Notes de version
 
+## 0.2.0 — Inventaire (J2)
+
+- Inventaire : un emplacement par plateforme ou wallet, avec ses actifs, la personne ou le document à qui s'adresser, une précision, la procédure décès de la plateforme et des notes. Ajout, modification, suppression ; exemple fictif pour découvrir l'outil.
+- Détecteur de secrets : une saisie qui ressemble à une phrase de récupération (anglais ou français, abrégée, numérotée, avec une faute de frappe, coupée entre deux champs) ou à une clé privée est effacée sur-le-champ, jamais conservée.
+- Sauvegarde : export d'un fichier JSON à ranger soi-même ; import avec vérification stricte, qui refuse un fichier contenant un secret sans en répéter le contenu.
+- Rien n'est enregistré dans le navigateur : indicateur « Non exporté » et confirmation avant de fermer l'onglet.
+- Montant indicatif désactivé par défaut ; le masquer efface les montants saisis.
+
 ## 0.1.0 — Squelette (J1)
 
 - Accueil : ce que fait l'outil, ce qu'il ne fera jamais (aucun secret, aucune connexion, aucun envoi), rappel « rien n'est enregistré ».
