@@ -1,0 +1,21 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Éditeurs
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.sw?
+
+# Données personnelles : ne jamais committer de vrais inventaires ni de vraies lettres
+/data/
+succession-crypto-*.json
+succession-crypto-*.txt
