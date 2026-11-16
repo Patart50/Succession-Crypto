@@ -4,11 +4,11 @@ Préparez la transmission de vos cryptos à vos proches, **sans jamais saisir de
 
 Site : https://patart50.github.io/succession-crypto/
 
-> Version de développement (0.1.0) : l'inventaire, la checklist et la lettre arrivent dans les prochaines versions.
+> Version de développement (0.2.0) : l'inventaire est disponible ; la checklist et la lettre arrivent dans les prochaines versions.
 
 ## Principes
 
-- **Aucun secret** : l'outil ne demande et ne garde jamais de seed, de clé privée ni de mot de passe ; une suite de mots qui ressemble à une seed est refusée.
+- **Aucun secret** : l'outil ne demande et ne garde jamais de seed, de clé privée ni de mot de passe ; une saisie qui ressemble à une phrase de récupération ou à une clé privée est effacée sur-le-champ (listes BIP39 officielles, anglais et français).
 - **Aucun réseau** : aucune requête sur Internet, même avec votre accord ; aucune valorisation de vos avoirs.
 - **Aucune persistance** : vos saisies restent dans l'onglet ; vous les sauvegardez dans un fichier que vous rangez vous-même.
 - **Séparation des informations** : la lettre dit ce qui existe et à qui s'adresser, jamais où sont vos sauvegardes.

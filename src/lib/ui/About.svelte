@@ -33,8 +33,9 @@
     <h2>Ce qu'il ne fait pas, volontairement</h2>
     <ul>
       <li>
-        <strong>Aucun secret.</strong> L'outil ne demande et ne garde jamais de phrase de récupération (seed), de clé privée ni de mot de passe. Une suite de
-        mots qui ressemble à une phrase de récupération sera refusée.
+        <strong>Aucun secret.</strong> L'outil ne demande et ne garde jamais de phrase de récupération (seed), de clé privée ni de mot de passe. Une saisie
+        qui ressemble à une phrase de récupération (listes officielles BIP39, anglais et français) ou à une clé privée est effacée sur-le-champ, et un
+        fichier importé qui en contient est refusé. Ce détecteur est un garde-fou, pas une garantie : il ne reconnaît ni un mot de passe ni un code PIN.
       </li>
       <li><strong>Aucune connexion</strong> à un wallet, une plateforme ou une blockchain, et aucune valorisation de vos avoirs.</li>
       <li>
@@ -53,7 +54,8 @@
       </li>
       <li>
         <strong>Rien n'est enregistré.</strong> Vos saisies restent dans la mémoire de l'onglet et disparaissent à sa fermeture. Même le choix du thème n'est pas
-        mémorisé. Pour reprendre plus tard, vous exporterez un fichier que vous réimporterez.
+        mémorisé. Pour reprendre plus tard, exportez un fichier (bouton « Exporter » de l'inventaire) et réimportez-le. Le navigateur vous prévient si vous fermez
+        l'onglet avec des saisies non exportées.
       </li>
       <li>
         Hors ligne : une fois chargé, l'outil fonctionne sans réseau. Le navigateur garde en cache le code de l'outil, jamais vos saisies.
@@ -64,6 +66,10 @@
   <section>
     <h2>Précautions</h2>
     <ul>
+      <li>
+        Le fichier exporté n'est pas chiffré : c'est voulu, pour ne pas recréer un coffre-fort à mot de passe. Rangez-le comme un document sensible (clé USB
+        dans un tiroir fermé, coffre), jamais en pièce jointe d'un e-mail ni dans un cloud non chiffré.
+      </li>
       <li>
         Sans aucun secret, un inventaire ou une lettre révèle tout de même que vous détenez des cryptos et où. Traitez-les comme des documents sensibles : pas
         d'envoi par e-mail, pas de cloud non chiffré, pas d'impression laissée en vue.

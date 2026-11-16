@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * succession-crypto : coquille de l'application (J1). Navigation par ancre, voir lib/router.ts.
+   * succession-crypto : coquille de l'application. Navigation par ancre, voir lib/router.ts.
    * Aucune persistance (succession D-002) : même le choix du thème ne dure que le temps de l'onglet (succession D-009).
    */
   import { onMount, tick } from 'svelte';
@@ -13,6 +13,8 @@
   import Home from './lib/ui/Home.svelte';
   import About from './lib/ui/About.svelte';
   import Upcoming from './lib/ui/Upcoming.svelte';
+  import Inventory from './lib/ui/Inventory.svelte';
+  import { app } from './lib/state/app.svelte';
 
   let view = $state<View>(readView(location.hash));
   let theme = $state<Theme>('auto');
@@ -24,18 +26,23 @@
       await tick();
       document.querySelector<HTMLElement>('main h1')?.focus();
     };
+    // Saisies non exportées : le navigateur demande confirmation avant de fermer l'onglet (D-002).
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (!app.dirty) return;
+      e.preventDefault();
+      e.returnValue = '';
+    };
     addEventListener('hashchange', onHash);
-    return () => removeEventListener('hashchange', onHash);
+    addEventListener('beforeunload', onBeforeUnload);
+    return () => {
+      removeEventListener('hashchange', onHash);
+      removeEventListener('beforeunload', onBeforeUnload);
+    };
   });
 
   $effect(() => applyTheme(theme));
 
   const upcoming: Partial<Record<View, { title: string; milestone: string; summary: string }>> = {
-    inventaire: {
-      title: 'Inventaire',
-      milestone: 'J2',
-      summary: "Liste de vos plateformes et wallets, de ce qu'ils contiennent et de la personne à qui s'adresser pour chacun. Sans montant par défaut, sans aucun secret.",
-    },
     checklist: {
       title: 'Checklist',
       milestone: 'J3',
@@ -71,7 +78,10 @@
       >
     </div>
     <div class="top-actions">
-      <span class="local" title="Rien n'est enregistré ni envoyé sur Internet">
+      {#if app.dirty}
+        <a class="unsaved" href="#inventaire" title="Exportez une sauvegarde depuis l'écran Inventaire">Non exporté</a>
+      {/if}
+      <span class="local" class:hide-narrow={app.dirty} title="Rien n'est enregistré ni envoyé sur Internet">
         <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"
           ><path d="M8 1.5 2.5 3.8v3.7c0 3.2 2.3 6 5.5 7 3.2-1 5.5-3.8 5.5-7V3.8L8 1.5Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg
         >
@@ -90,6 +100,8 @@
 <main id="contenu" tabindex="-1">
   {#if view === 'a-propos'}
     <About />
+  {:else if view === 'inventaire'}
+    <Inventory />
   {:else if upcoming[view]}
     {@const u = upcoming[view]!}
     <Upcoming title={u.title} milestone={u.milestone} summary={u.summary} />
@@ -108,6 +120,10 @@
     Créé par <a href={AUTHOR.url} target="_blank" rel="noopener author">{AUTHOR.name} ({AUTHOR.handle})</a> · <Support intro={SUPPORT_INTRO} />
   </p>
 </footer>
+
+{#if app.toast}
+  <div class="toast" role="status" aria-live="polite">{app.toast}</div>
+{/if}
 
 <style>
   :global(a.btn) {
@@ -160,6 +176,7 @@
     font-size: 1.45rem;
     font-weight: 650;
     letter-spacing: -0.01em;
+    white-space: nowrap;
   }
   .brand-tag {
     font-size: 0.82rem;
@@ -177,6 +194,27 @@
     font-size: 0.82rem;
     color: var(--gain);
     padding-inline: 0.4rem;
+  }
+  .unsaved {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--warn);
+    padding-inline: 0.4rem;
+    white-space: nowrap;
+  }
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 1.25rem;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-pop);
+    font-size: 0.92rem;
+    z-index: 50;
+    max-width: calc(100vw - 2rem);
   }
   .tabs {
     display: flex;
@@ -203,8 +241,12 @@
   }
   @media (max-width: 560px) {
     .tagline,
-    .local-text {
+    .local-text,
+    .hide-narrow {
       display: none;
+    }
+    .brand-name {
+      font-size: 1.25rem;
     }
   }
   .foot {

@@ -1,6 +1,6 @@
 # succession-crypto — Spécification v0.1
 
-Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette livré). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-009).
+Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-010).
 Dépôt : github.com/Patart50/succession-crypto — licence AGPL-3.0.
 
 ## 1. Objectif
@@ -55,7 +55,9 @@ Une ligne par « emplacement » :
 | Procédure décès de la plateforme connue | oui / non / sans objet | non |
 | Notes | texte libre | non |
 
-Tous les champs texte passent par le détecteur de seed (D-001).
+Tous les champs texte passent par le détecteur de secrets à chaque frappe ; une saisie suspecte est effacée sur-le-champ (D-001, D-010). À l'enregistrement, l'emplacement entier est vérifié (secret coupé entre deux champs) ; en cas de refus, tous les champs texte du formulaire sont effacés.
+
+Longueurs maximales : nom 80, actifs 200, montant 60, précision 200, notes 1 000 caractères. Le champ « Procédure décès » n'apparaît que pour une plateforme centralisée (sinon « sans objet »). Masquer le champ montant efface les montants saisis, après confirmation. Un exemple entièrement fictif (« Plateforme A », « Wallet matériel 1 ») peut être chargé quand l'inventaire est vide.
 
 ### 5.2 Checklist (J3)
 
@@ -119,14 +121,25 @@ Format JSON v1 :
 }
 ```
 
-À l'import : validation stricte, détecteur de seed appliqué à tous les champs, refus du fichier entier en cas d'échec avec message précis.
+À l'import : validation stricte (format, version, champs connus seulement, types, valeurs des listes, longueurs, identifiants uniques, 1 Mo et 500 emplacements au plus), détecteur de secrets appliqué à chaque champ et à chaque paire de champs d'un emplacement, refus du fichier entier en cas d'échec avec un message précis qui ne répète jamais le contenu refusé. Un import remplace toutes les saisies, après confirmation si elles ne sont pas exportées.
 
-## 6. Détecteur de seed (D-001)
+Nom du fichier exporté : `succession-crypto-AAAA-MM-JJ.json`. L'export se fait par un lien local (`blob:`), sans aucun envoi. Le fichier n'est pas chiffré (D-002) : l'interface le dit et conseille où le ranger.
 
-- Listes BIP39 anglaise et française embarquées.
-- Un champ est refusé si une suite d'au moins 12 mots contient au moins 11 mots d'une même liste. Seuils à ajuster par tests (faux positifs sur des notes ordinaires).
-- Message : expliquer pourquoi c'est refusé et rappeler qu'une seed ne doit jamais être saisie sur un ordinateur.
-- Le contenu refusé n'est ni conservé ni journalisé.
+## 6. Détecteur de secrets (D-001, D-010)
+
+Code : `src/lib/core/seed.ts`. Listes : `src/lib/core/wordlists/` (fichiers officiels du dépôt bitcoin/bips, empreintes SHA-256 vérifiées par un test).
+
+**Phrase de récupération.** Le texte est mis en minuscules et sans accents, puis découpé en mots (chiffres et ponctuation séparent, ce qui couvre les listes numérotées). Refus si, parmi 12 mots consécutifs, au moins 11 appartiennent à une même liste BIP39 (anglaise ou française). Un mot compte s'il est dans la liste ou s'il est formé des 4 premières lettres d'un mot de la liste (sauvegarde abrégée). Une faute de frappe est tolérée, deux ne le sont pas.
+
+**Clé privée.** Refus d'une chaîne de 64 caractères hexadécimaux (avec ou sans 0x), d'une clé WIF, d'une clé étendue (xprv, yprv, zprv, tprv…) ou d'une chaîne base58 de 80 caractères ou plus (clé Solana). Les adresses publiques sont acceptées.
+
+**Plusieurs champs.** À l'enregistrement et à l'import, chaque champ est vérifié seul, puis chaque paire de champs mise bout à bout dans les deux ordres.
+
+**Mesures.** Aucun faux positif sur la prose de la documentation du programme (358 paragraphes, environ 18 000 mots, français et anglais). Seul un bloc de code Svelte, rempli de mots anglais, est signalé : sans conséquence pour des notes d'utilisateur.
+
+**Limites assumées.** Une phrase coupée en trois champs ou plus, ou comportant deux fautes de frappe ou plus, n'est pas détectée ; un mot de passe ou un code PIN ne peut pas être reconnu. Le détecteur est un garde-fou, pas une garantie : l'interface demande de ne jamais saisir de secret.
+
+Message : il explique pourquoi c'est refusé et rappelle qu'un secret ne doit jamais être saisi sur un ordinateur ; il ne répète jamais la saisie. Le contenu refusé n'est ni conservé ni journalisé.
 
 ## 7. Écrans
 
@@ -137,7 +150,7 @@ Navigation par ancre (`src/lib/router.ts`) ; les ancres ne nomment que des écra
 
 Tant qu'un écran n'est pas livré, il affiche « En préparation » avec son jalon.
 
-Avertissement `beforeunload` si des données non exportées existent (J2).
+Indicateur « Non exporté » dans l'en-tête et avertissement `beforeunload` du navigateur tant que des saisies n'ont pas été exportées.
 
 ## 8. Jalons
 
@@ -145,7 +158,7 @@ Avertissement `beforeunload` si des données non exportées existent (J2).
 |---|---|---|
 | J0 | Spec v0.1, décisions D-001 à D-008 | fait |
 | J1 | Squelette, commun-crypto, thème, service worker, auteur et soutien, « À propos et limites » | fait (v0.1.0) |
-| J2 | Inventaire, détecteur de seed, import/export JSON | |
+| J2 | Inventaire, détecteur de secrets, import/export JSON | fait (v0.2.0) |
 | J3 | Checklist | |
 | J4 | Lettre, impression, export TXT | |
 | J5 | Règles françaises sourcées, bonnes pratiques | |
