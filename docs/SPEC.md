@@ -1,6 +1,6 @@
 # succession-crypto — Spécification v0.1
 
-Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire ; J3 : checklist). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-012).
+Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire ; J3 : checklist ; J4 : lettre). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-013).
 Dépôt : github.com/Patart50/succession-crypto — licence AGPL-3.0.
 
 ## 1. Objectif
@@ -79,14 +79,21 @@ Progression « n points sur 18 ». Impression (navigation, boutons et rappels d'
 
 ### 5.3 Lettre d'intention (J4)
 
-Générée à partir de l'inventaire et d'un formulaire (nom affiché, date, destinataires, personne de confiance, notaire). Structure imposée (D-004) :
-1. Bandeau en tête : « Ce document n'a aucune valeur juridique. Il ne remplace ni un testament ni les conseils d'un notaire. Il ne contient aucun secret. »
-2. Ce qui existe : liste des emplacements (type, nom, actifs ; montants seulement si activés).
-3. À qui s'adresser pour chaque emplacement.
-4. Conseils aux héritiers : ne pas se précipiter, se méfier des arnaques à la récupération, ne jamais saisir une seed sur un site, contacter le notaire.
-5. Date, lieu, signature (zones vides à remplir à la main).
+Code : `src/lib/core/letter.ts` (modèle, texte), `src/lib/ui/Letter.svelte` (formulaire, aperçu), `LetterDocument.svelte` (rendu commun à l'écran et à l'impression).
 
-Aucun champ ne permet d'indiquer l'emplacement d'une sauvegarde de seed dans la lettre.
+Quatre champs (500 caractères au plus, gardés par le détecteur de secrets comme l'inventaire, y compris une seed coupée entre deux champs) : **Votre nom**, **Destinataires**, **Personne de confiance** (nom et moyen de la joindre), **Notaire** (nom, étude, ville). La date et le lieu ne sont pas saisis : ils s'écrivent à la main avec la signature (D-013).
+
+Structure imposée (D-004) :
+1. Bandeau : « Ce document n'a aucune valeur juridique. Il ne remplace ni un testament ni les conseils d'un notaire. Il ne contient aucun secret : ni phrase de récupération, ni clé privée, ni mot de passe. »
+2. Titre, « À l'attention de : … » (ou « de mes proches »), introduction : « Moi, …, je détiens des cryptoactifs… Elle ne dit volontairement pas où se trouvent mes sauvegardes : cette information vous sera transmise par les personnes ci-dessous. »
+3. Personnes à contacter : personne de confiance, notaire (ceux qui sont renseignés).
+4. Ce qui existe : chaque emplacement de l'inventaire (nom, type, actifs, montant seulement si le réglage est activé, « À qui s'adresser : contact — précision », notes).
+5. Conseils pour mes proches, texte fixe : ne pas se précipiter ; commencer par le notaire et la personne de confiance ; personne n'a besoin de la phrase de récupération pour aider, quiconque la demande cherche à voler ; ne jamais la saisir sur un site, une application ou un formulaire, seulement sur le wallet concerné ; passer par le site officiel d'une plateforme, jamais par un lien reçu ; se méfier des aides spontanées après le décès.
+6. « Fait à : ____ le : ____ », « Signature : », zone vide ; mention « Document préparé le … avec succession-crypto ».
+
+Aucun champ ne permet d'indiquer l'emplacement d'une sauvegarde. Avant impression, l'écran signale les manques (nom absent, aucune personne à contacter, inventaire vide) sans bloquer.
+
+Sorties : impression (seule la lettre ; une page A4 pour un inventaire court) et export TXT `succession-crypto-lettre-AAAA-MM-JJ.txt`. Les champs sont inclus dans la sauvegarde JSON (`lettre`) ; les messages d'erreur d'import utilisent leurs libellés.
 
 ### 5.4 Règles françaises (J5)
 
@@ -106,7 +113,7 @@ Fiches courtes : sauvegarde de seed sur support métal, passphrase BIP39 et son 
 ### 5.6 Exports (D-006)
 
 - **Impression** de la lettre et de la checklist via feuille de style `@media print` (l'utilisateur choisit « Enregistrer en PDF »).
-- **TXT** de la checklist (J3) et de la lettre (J4).
+- **TXT** de la checklist (J3) et de la lettre (J4), même contenu que l'impression.
 - **JSON** complet, réimportable sans perte.
 
 Format JSON v1 :
@@ -165,7 +172,7 @@ Indicateur « Non exporté » dans l'en-tête et avertissement `beforeunload` du
 | J1 | Squelette, commun-crypto, thème, service worker, auteur et soutien, « À propos et limites » | fait (v0.1.0) |
 | J2 | Inventaire, détecteur de secrets, import/export JSON | fait (v0.2.0) |
 | J3 | Checklist, impression, export TXT | fait (v0.3.0) |
-| J4 | Lettre, impression, export TXT | |
+| J4 | Lettre, impression, export TXT | fait (v0.4.0) |
 | J5 | Règles françaises sourcées, bonnes pratiques | |
 | J6 | Accessibilité, relecture, v1.0.0 | |
 

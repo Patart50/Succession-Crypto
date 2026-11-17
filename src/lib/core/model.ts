@@ -51,9 +51,15 @@ export interface Settings {
   montantsActives: boolean;
 }
 
-/** Champs de la lettre d'intention (formulaire au J4). */
+/** Champs de la lettre d'intention (SPEC § 5.3). */
 export const LETTER_FIELDS = ['nomAffiche', 'destinataires', 'personneConfiance', 'notaire'] as const;
 export type LetterField = (typeof LETTER_FIELDS)[number];
+export const LETTER_LABELS: Record<LetterField, string> = {
+  nomAffiche: 'Votre nom',
+  destinataires: 'Destinataires',
+  personneConfiance: 'Personne de confiance',
+  notaire: 'Notaire',
+};
 export type Letter = Partial<Record<LetterField, string>>;
 
 export interface SuccessionData {

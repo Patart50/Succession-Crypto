@@ -2,7 +2,7 @@
  * État de l'application, en mémoire seulement (succession D-002) : rien n'est écrit dans le navigateur.
  * `dirty` signale des saisies non exportées (avertissement à la fermeture de l'onglet).
  */
-import { emptyData, exampleEntries, type Entry, type SuccessionData } from '../core/model';
+import { emptyData, exampleEntries, type Entry, type LetterField, type SuccessionData } from '../core/model';
 
 class AppState {
   data = $state<SuccessionData>(emptyData());
@@ -50,6 +50,13 @@ class AppState {
   setCheck(id: string, checked: boolean) {
     if (checked) this.data.checklist[id] = true;
     else delete this.data.checklist[id];
+    this.#changed();
+  }
+
+  /** Champ de la lettre ; une valeur vide est retirée de la sauvegarde. */
+  setLetter(field: LetterField, value: string) {
+    if (value === '') delete this.data.lettre[field];
+    else this.data.lettre[field] = value;
     this.#changed();
   }
 

@@ -10,6 +10,7 @@ import {
   DEATH_PROCEDURE,
   ENTRY_TYPES,
   LETTER_FIELDS,
+  LETTER_LABELS,
   MAX_LENGTH,
   TEXT_FIELDS,
   type Entry,
@@ -151,7 +152,7 @@ export function parseBackup(text: string): ParseResult {
     onlyKeys(doc.lettre, LETTER_FIELDS, 'Lettre');
     const lettre: SuccessionData['lettre'] = {};
     for (const k of LETTER_FIELDS) {
-      if (k in doc.lettre) lettre[k] = checkText(doc.lettre[k], MAX_LETTER_LENGTH, `Lettre, champ « ${k} »`);
+      if (k in doc.lettre) lettre[k] = checkText(doc.lettre[k], MAX_LETTER_LENGTH, `Lettre, champ « ${LETTER_LABELS[k]} »`);
     }
     const kind = detectInFields(Object.values(lettre));
     if (kind) throw secretError(kind, 'la lettre');

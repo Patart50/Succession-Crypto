@@ -1,5 +1,13 @@
 # Notes de version
 
+## 0.4.0 — Lettre d'intention (J4)
+
+- Lettre à imprimer, dater et signer : ce qui existe d'après l'inventaire, les personnes à contacter, des conseils pour vos proches contre les arnaques à la récupération. Elle ne dit jamais où sont vos sauvegardes.
+- Quatre champs (votre nom, destinataires, personne de confiance, notaire), protégés par le détecteur de secrets.
+- Aperçu à l'écran, impression ou PDF (une page A4 pour un inventaire court), export en texte (.txt).
+- Avertissements avant impression : nom absent, aucune personne à contacter, inventaire vide.
+- La lettre est incluse dans la sauvegarde ; les erreurs d'import nomment ses champs en clair.
+
 ## 0.3.0 — Checklist (J3)
 
 - Checklist de 18 points en 7 thèmes : inventaire, sauvegardes, personnes, plateformes, documents, fiscal et déclaratif, révision. Chaque point est expliqué en une phrase.
