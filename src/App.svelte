@@ -14,6 +14,7 @@
   import About from './lib/ui/About.svelte';
   import Upcoming from './lib/ui/Upcoming.svelte';
   import Inventory from './lib/ui/Inventory.svelte';
+  import Checklist from './lib/ui/Checklist.svelte';
   import { app } from './lib/state/app.svelte';
 
   let view = $state<View>(readView(location.hash));
@@ -43,11 +44,6 @@
   $effect(() => applyTheme(theme));
 
   const upcoming: Partial<Record<View, { title: string; milestone: string; summary: string }>> = {
-    checklist: {
-      title: 'Checklist',
-      milestone: 'J3',
-      summary: 'Les points à préparer : sauvegardes, personnes de confiance, notaire, procédures des plateformes, révision annuelle.',
-    },
     lettre: {
       title: "Lettre d'intention",
       milestone: 'J4',
@@ -102,6 +98,8 @@
     <About />
   {:else if view === 'inventaire'}
     <Inventory />
+  {:else if view === 'checklist'}
+    <Checklist />
   {:else if upcoming[view]}
     {@const u = upcoming[view]!}
     <Upcoming title={u.title} milestone={u.milestone} summary={u.summary} />
@@ -264,8 +262,12 @@
   @media print {
     .top,
     .foot,
-    .skip {
+    .skip,
+    .toast {
       display: none;
+    }
+    main {
+      padding-block: 0;
     }
   }
 </style>

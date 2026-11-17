@@ -1,5 +1,13 @@
 # Notes de version
 
+## 0.3.0 — Checklist (J3)
+
+- Checklist de 18 points en 7 thèmes : inventaire, sauvegardes, personnes, plateformes, documents, fiscal et déclaratif, révision. Chaque point est expliqué en une phrase.
+- Liens avec l'inventaire : nombre d'emplacements, plateformes dont la procédure décès n'est pas renseignée, rappel si les saisies ne sont pas exportées.
+- Date de prochaine révision suggérée (un an).
+- Impression ou enregistrement en PDF, export en texte (.txt).
+- L'état des cases est inclus dans la sauvegarde ; l'import refuse un point inconnu.
+
 ## 0.2.1 — Effacement ciblé
 
 - Une phrase de récupération coupée entre deux champs n'efface plus tout le formulaire : seuls les deux champs en cause sont vidés et nommés, le reste de la saisie est gardé.

@@ -1,6 +1,6 @@
 # succession-crypto — Spécification v0.1
 
-Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-011).
+Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire ; J3 : checklist). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-012).
 Dépôt : github.com/Patart50/succession-crypto — licence AGPL-3.0.
 
 ## 1. Objectif
@@ -61,16 +61,21 @@ Longueurs maximales : nom 80, actifs 200, montant 60, précision 200, notes 1 00
 
 ### 5.2 Checklist (J3)
 
-Liste de points cochables, groupés par thème, chacun avec une explication courte. Thèmes v1 :
-1. Inventaire à jour et daté.
-2. Sauvegardes : chaque seed sauvegardée hors ligne, support durable, sauvegarde testée, rangée dans un lieu distinct de la lettre.
-3. Personnes : personne de confiance désignée et informée ; notaire informé de l'existence d'actifs numériques.
-4. Plateformes : procédure en cas de décès connue pour chaque plateforme centralisée.
-5. Documents : lettre imprimée, datée, signée ; emplacement connu des proches.
-6. Fiscal et déclaratif : obligations déclaratives à jour (contenu J5, sourcé).
-7. Révision : date de prochaine révision (annuelle conseillée).
+Contenu : `src/lib/core/checklist.ts`. 18 points cochables en 7 thèmes, chacun avec une explication courte (D-012) :
 
-État de la checklist inclus dans l'export JSON.
+1. **Inventaire** : chaque plateforme et wallet y figure (`inventaire-complet`) ; inventaire exporté et rangé (`inventaire-exporte`).
+2. **Sauvegardes** : seed notée hors ligne (`sauvegarde-hors-ligne`), support durable (`sauvegarde-durable`), sauvegarde testée (`sauvegarde-testee`), rangée à part de la lettre (`sauvegarde-separee`), transmission de la passphrase prévue (`passphrase`), codes de secours de la double authentification rangés (`double-authentification`).
+3. **Personnes** : personne de confiance désignée et informée (`personne-confiance`), notaire informé (`notaire-informe`), proches informés de l'existence du dossier (`proches-informes`).
+4. **Plateformes** : procédure décès connue (`plateformes-procedure`), comptes au nom du titulaire avec identité vérifiée (`plateformes-identite`).
+5. **Documents** : lettre imprimée, datée, signée (`lettre-signee`), rangée là où les proches la chercheront (`lettre-rangee`).
+6. **Fiscal et déclaratif** : déclarations à jour (`declarations-a-jour`), historique des achats et ventes conservé (`historique-conserve`). Aucune règle n'est énoncée ici : renvoi à la section « Règles françaises » (J5, D-005).
+7. **Révision** : date de révision fixée (`revision-planifiee`), une fois par an et après chaque changement.
+
+Les identifiants entre parenthèses sont les clés de `checklist` dans la sauvegarde : ils sont figés (un test l'impose). Seuls les points cochés sont enregistrés.
+
+Liens avec l'inventaire, à l'écran : nombre d'emplacements, rappel si les saisies ne sont pas exportées, liste des plateformes dont la procédure décès n'est pas renseignée (« Oui »). Date de prochaine révision suggérée : un an après le jour de consultation, affichée et imprimée, non enregistrée.
+
+Progression « n points sur 18 ». Impression (navigation, boutons et rappels d'écran masqués ; date et mention « ne contient aucun secret » ajoutées) et export TXT `succession-crypto-checklist-AAAA-MM-JJ.txt`.
 
 ### 5.3 Lettre d'intention (J4)
 
@@ -101,7 +106,7 @@ Fiches courtes : sauvegarde de seed sur support métal, passphrase BIP39 et son 
 ### 5.6 Exports (D-006)
 
 - **Impression** de la lettre et de la checklist via feuille de style `@media print` (l'utilisateur choisit « Enregistrer en PDF »).
-- **TXT** de la lettre et de la checklist.
+- **TXT** de la checklist (J3) et de la lettre (J4).
 - **JSON** complet, réimportable sans perte.
 
 Format JSON v1 :
@@ -116,12 +121,12 @@ Format JSON v1 :
     { "id": "…", "type": "plateforme", "nom": "Plateforme A", "actifs": "BTC", "montant": null,
       "acces": "notaire", "precision": "", "procedureDeces": "non", "notes": "" }
   ],
-  "checklist": { "inventaire-date": true },
+  "checklist": { "inventaire-exporte": true },
   "lettre": { "nomAffiche": "", "destinataires": "", "personneConfiance": "", "notaire": "" }
 }
 ```
 
-À l'import : validation stricte (format, version, champs connus seulement, types, valeurs des listes, longueurs, identifiants uniques, 1 Mo et 500 emplacements au plus), détecteur de secrets appliqué à chaque champ et à chaque paire de champs d'un emplacement, refus du fichier entier en cas d'échec avec un message précis qui ne répète jamais le contenu refusé. Un import remplace toutes les saisies, après confirmation si elles ne sont pas exportées.
+À l'import : validation stricte (format, version, champs connus seulement, points de checklist connus seulement, types, valeurs des listes, longueurs, identifiants uniques, 1 Mo et 500 emplacements au plus), détecteur de secrets appliqué à chaque champ et à chaque paire de champs d'un emplacement, refus du fichier entier en cas d'échec avec un message précis qui ne répète jamais le contenu refusé. Un import remplace toutes les saisies, après confirmation si elles ne sont pas exportées.
 
 Nom du fichier exporté : `succession-crypto-AAAA-MM-JJ.json`. L'export se fait par un lien local (`blob:`), sans aucun envoi. Le fichier n'est pas chiffré (D-002) : l'interface le dit et conseille où le ranger.
 
@@ -159,7 +164,7 @@ Indicateur « Non exporté » dans l'en-tête et avertissement `beforeunload` du
 | J0 | Spec v0.1, décisions D-001 à D-008 | fait |
 | J1 | Squelette, commun-crypto, thème, service worker, auteur et soutien, « À propos et limites » | fait (v0.1.0) |
 | J2 | Inventaire, détecteur de secrets, import/export JSON | fait (v0.2.0) |
-| J3 | Checklist | |
+| J3 | Checklist, impression, export TXT | fait (v0.3.0) |
 | J4 | Lettre, impression, export TXT | |
 | J5 | Règles françaises sourcées, bonnes pratiques | |
 | J6 | Accessibilité, relecture, v1.0.0 | |

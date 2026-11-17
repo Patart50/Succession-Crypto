@@ -46,6 +46,13 @@ class AppState {
     return this.data.inventaire.filter((e) => e.montant !== null && e.montant.trim() !== '').length;
   }
 
+  /** Coche ou décoche un point de la checklist ; un point décoché est retiré de la sauvegarde. */
+  setCheck(id: string, checked: boolean) {
+    if (checked) this.data.checklist[id] = true;
+    else delete this.data.checklist[id];
+    this.#changed();
+  }
+
   loadExample() {
     for (const e of exampleEntries()) this.data.inventaire.push(e);
     this.#changed();
