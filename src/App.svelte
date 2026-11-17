@@ -8,7 +8,7 @@
   import Support from 'commun-crypto/ui/Support.svelte';
   import { applyTheme, type Theme } from 'commun-crypto/theme';
   import { AUTHOR } from 'commun-crypto/support';
-  import { readView, TABS, type View } from './lib/router';
+  import { documentTitle, readView, TABS, type View } from './lib/router';
   import { SUPPORT_INTRO } from './lib/ui/supportIntro';
   import Home from './lib/ui/Home.svelte';
   import About from './lib/ui/About.svelte';
@@ -44,10 +44,21 @@
   });
 
   $effect(() => applyTheme(theme));
+  $effect(() => {
+    document.title = documentTitle(view);
+  });
 
 </script>
 
-<a class="skip" href="#contenu">Aller au contenu</a>
+<a
+  class="skip"
+  href="#contenu"
+  onclick={(e) => {
+    // Pas de changement d'ancre : « #contenu » n'est pas un écran, le routeur ramènerait à l'accueil.
+    e.preventDefault();
+    document.getElementById('contenu')?.focus();
+  }}>Aller au contenu</a
+>
 
 <header class="top">
   <div class="top-inner">

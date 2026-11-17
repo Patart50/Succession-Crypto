@@ -7,14 +7,17 @@
   import Support from 'commun-crypto/ui/Support.svelte';
   import { SUPPORT_INTRO } from './supportIntro';
 
+  import { RULES_VERIFIED } from '../../content/regles';
+
   const version = __APP_VERSION__;
+  const verified = new Date(`${RULES_VERIFIED}T12:00:00`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
   const repo = 'https://github.com/Patart50/succession-crypto';
 </script>
 
 <article class="about" aria-labelledby="about-title">
   <header>
     <h1 id="about-title" tabindex="-1">À propos et limites</h1>
-    <p class="muted">succession-crypto {version} · logiciel libre (AGPL-3.0) · version de développement</p>
+    <p class="muted">succession-crypto {version} · logiciel libre (AGPL-3.0) · règles françaises vérifiées le {verified}</p>
   </header>
 
   <section>
@@ -50,7 +53,9 @@
     <ul>
       <li>
         <strong>Rien n'est envoyé.</strong> L'outil ne fait aucune requête sur Internet, même avec votre accord : pas de serveur, pas de compte, pas de mesure
-        d'audience, pas de cours de crypto.
+        d'audience, pas de cours de crypto. Les liens vers les sources officielles ou vers GitHub ouvrent ces sites dans un nouvel onglet, sans rien leur
+        transmettre de vos saisies. Le navigateur lui-même bloque toute connexion vers un autre site que celui de l'outil (politique de sécurité du
+        contenu).
       </li>
       <li>
         <strong>Rien n'est enregistré.</strong> Vos saisies restent dans la mémoire de l'onglet et disparaissent à sa fermeture. Même le choix du thème n'est pas
@@ -85,7 +90,7 @@
   <section>
     <h2>Avertissement</h2>
     <p>
-      Information générale, à jour à la date indiquée pour chaque règle. Ce n'est ni un conseil juridique, ni un conseil fiscal, ni un conseil en
+      Information générale, à jour à la date indiquée pour chaque règle ({verified}). Ce n'est ni un conseil juridique, ni un conseil fiscal, ni un conseil en
       investissement. Pour toute disposition concernant votre succession, consultez un notaire.
     </p>
   </section>
