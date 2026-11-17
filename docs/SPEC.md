@@ -1,6 +1,6 @@
 # succession-crypto — Spécification v0.1
 
-Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire ; J3 : checklist ; J4 : lettre). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-013).
+Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire ; J3 : checklist ; J4 : lettre ; J5 : règles et bonnes pratiques). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-014).
 Dépôt : github.com/Patart50/succession-crypto — licence AGPL-3.0.
 
 ## 1. Objectif
@@ -97,18 +97,25 @@ Sorties : impression (seule la lettre ; une page A4 pour un inventaire court) et
 
 ### 5.4 Règles françaises (J5)
 
-Fichier de contenu unique `src/content/regles.ts` : chaque règle a un texte, une source (Légifrance ou BOFiP, URL), une date de vérification (D-005). Sujets à couvrir, **à vérifier un par un au J5, rien n'est acquis à ce stade** :
-- inclusion des cryptoactifs dans l'actif successoral, valeur retenue ;
-- délai de déclaration de succession ;
-- prix d'acquisition retenu pour l'héritier lors d'une cession ultérieure ;
-- comptes d'actifs numériques ouverts à l'étranger (obligation déclarative) ;
-- rôle du notaire.
+Contenu : `src/content/regles.ts`. Chaque règle a un titre, un texte qui reformule la source, un « En pratique » facultatif (conséquence pour une succession de cryptos, présentée comme telle), une ou plusieurs sources (libellé, URL, version affichée par la source) et une date de vérification (D-005, D-014). Sources admises : legifrance.gouv.fr, bofip.impots.gouv.fr, impots.gouv.fr ; un test l'impose.
 
-Avertissement permanent sur la page : information générale, non personnalisée, datée.
+Sept règles, vérifiées le 17 nov. 2026 :
 
-### 5.5 Bonnes pratiques (J5, contenu pédagogique, D-007)
+| Règle | Sources |
+|---|---|
+| Les cryptos font partie de la succession (défunt domicilié en France : tous biens, en France ou hors de France) | BOI-ENR-DMTG-10-10-30 § III.A (art. 750 ter CGI) |
+| Évaluation à la valeur vénale au jour du décès | BOI-ENR-DMTG-10-40-10-10 (art. 666 CGI), BOI-ENR-DMTG-10-30 (décès, fait générateur) |
+| Déclaration dans les 6 mois (décès en France métropolitaine), un an sinon, cas particuliers outre-mer | BOI-ENR-DMTG-10-60-50 (art. 641 CGI), impots.gouv.fr (MAJ 30/03/2026) |
+| Dispense de déclaration : actif brut < 50 000 € (ligne directe, conjoint, sans donation antérieure non déclarée), 3 000 € sinon | impots.gouv.fr (MAJ 30/03/2026) |
+| Notaire obligatoire en présence de biens ou droits immobiliers | impots.gouv.fr (MAJ 30/03/2026) |
+| Prix d'acquisition de l'héritier : valeur retenue pour les droits de mutation | Légifrance, art. 150 VH bis III B CGI (en vigueur depuis le 01/07/2026) |
+| Comptes d'actifs numériques à l'étranger : formulaire 3916-bis chaque année ; amende 750 €, 1 500 € au-delà de 50 000 €, plafond 10 000 € par déclaration | impots.gouv.fr (modifié 06/05/2024, art. 1649 bis C CGI), BOI-CF-INF-20-10-50 § I.D (art. 1736 CGI) |
 
-Fiches courtes : sauvegarde de seed sur support métal, passphrase BIP39 et son risque pour les héritiers, Shamir/SLIP-39 via le wallet matériel, multisig, coffre bancaire, enveloppe chez le notaire, arnaques à la récupération.
+Bandeau permanent : information générale, date de vérification, pas un conseil personnalisé, consulter la source et un notaire. Aucun calcul de droits (abattements, barème) : hors périmètre.
+
+### 5.5 Bonnes pratiques (J5, D-007)
+
+Contenu : `src/content/pratiques.ts`. Sept fiches (résumé, points, « Piège à éviter ») : sauvegarde sur métal, passphrase, partage de Shamir (SLIP-39, dans le wallet matériel ; découper soi-même sa phrase n'en est pas un), multisig (conserver aussi la description du wallet), coffre bancaire, enveloppe scellée chez le notaire, arnaques à la récupération. Aucune marque ni service recommandé. L'affirmation « 4 lettres identifient chaque mot » est vérifiée par un test sur les deux listes BIP39. Sommaire en tête d'écran.
 
 ### 5.6 Exports (D-006)
 
@@ -160,7 +167,7 @@ Navigation par ancre (`src/lib/router.ts`) ; les ancres ne nomment que des écra
 1. Accueil `#accueil` : ce que fait l'outil, ce qu'il ne fait pas, rappel « rien n'est enregistré : exportez avant de fermer ».
 2. Inventaire `#inventaire`. 3. Checklist `#checklist`. 4. Lettre `#lettre` (aperçu imprimable). 5. Règles françaises `#regles`. 6. Bonnes pratiques `#pratiques`. 7. À propos et limites `#a-propos` (dont Auteur et soutien), lien en pied de page.
 
-Tant qu'un écran n'est pas livré, il affiche « En préparation » avec son jalon.
+Tous les écrans sont livrés depuis la v0.5.0 (l'écran « En préparation » des jalons précédents est supprimé).
 
 Indicateur « Non exporté » dans l'en-tête et avertissement `beforeunload` du navigateur tant que des saisies n'ont pas été exportées.
 
@@ -173,7 +180,7 @@ Indicateur « Non exporté » dans l'en-tête et avertissement `beforeunload` du
 | J2 | Inventaire, détecteur de secrets, import/export JSON | fait (v0.2.0) |
 | J3 | Checklist, impression, export TXT | fait (v0.3.0) |
 | J4 | Lettre, impression, export TXT | fait (v0.4.0) |
-| J5 | Règles françaises sourcées, bonnes pratiques | |
+| J5 | Règles françaises sourcées, bonnes pratiques | fait (v0.5.0) |
 | J6 | Accessibilité, relecture, v1.0.0 | |
 
 ## 9. Critères d'acceptation (chaque PR)

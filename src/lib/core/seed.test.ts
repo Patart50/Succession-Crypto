@@ -19,6 +19,14 @@ describe('listes BIP39 embarquées', () => {
     expect(sha256(file('french.txt'))).toBe('ebc3959ab7801a1df6bac4fa7d970652f1df76b683cd2f4003c941c63d517e59');
   });
 
+  it('4 lettres identifient chaque mot (affirmé dans la fiche « métal »)', () => {
+    for (const name of ['english.txt', 'french.txt']) {
+      const words = readFileSync(new URL(`./wordlists/${name}`, import.meta.url), 'utf8').trim().split('\n');
+      const prefixes = new Set(words.map((w) => normalize(w).slice(0, 4)));
+      expect(prefixes.size, name).toBe(2048);
+    }
+  });
+
   it('contiennent 2048 mots chacune', () => {
     expect(WORDLISTS.english.words.size).toBe(2048);
     expect(WORDLISTS.french.words.size).toBe(2048);

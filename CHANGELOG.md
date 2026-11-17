@@ -1,5 +1,11 @@
 # Notes de version
 
+## 0.5.0 — Règles françaises et bonnes pratiques (J5)
+
+- Règles françaises : 7 règles sur la succession de cryptos (périmètre, évaluation au jour du décès, délai de déclaration, dispense, notaire, prix d'acquisition de l'héritier, comptes à l'étranger), chacune avec sa source officielle (Légifrance, BOFiP, impots.gouv.fr), sa version et sa date de vérification.
+- Bonnes pratiques : 7 fiches (métal, passphrase, Shamir, multisig, coffre, enveloppe chez le notaire, arnaques à la récupération), chacune avec son piège à éviter.
+- Tous les écrans sont désormais disponibles.
+
 ## 0.4.0 — Lettre d'intention (J4)
 
 - Lettre à imprimer, dater et signer : ce qui existe d'après l'inventaire, les personnes à contacter, des conseils pour vos proches contre les arnaques à la récupération. Elle ne dit jamais où sont vos sauvegardes.

@@ -12,10 +12,11 @@
   import { SUPPORT_INTRO } from './lib/ui/supportIntro';
   import Home from './lib/ui/Home.svelte';
   import About from './lib/ui/About.svelte';
-  import Upcoming from './lib/ui/Upcoming.svelte';
   import Inventory from './lib/ui/Inventory.svelte';
   import Checklist from './lib/ui/Checklist.svelte';
   import Letter from './lib/ui/Letter.svelte';
+  import Rules from './lib/ui/Rules.svelte';
+  import Practices from './lib/ui/Practices.svelte';
   import { app } from './lib/state/app.svelte';
 
   let view = $state<View>(readView(location.hash));
@@ -44,18 +45,6 @@
 
   $effect(() => applyTheme(theme));
 
-  const upcoming: Partial<Record<View, { title: string; milestone: string; summary: string }>> = {
-    regles: {
-      title: 'Règles françaises',
-      milestone: 'J5',
-      summary: 'Les règles de base de la succession de cryptoactifs en France, chacune avec sa source officielle et sa date de vérification.',
-    },
-    pratiques: {
-      title: 'Bonnes pratiques',
-      milestone: 'J5',
-      summary: 'Sauvegarde sur métal, passphrase, Shamir, multisig, notaire, arnaques à la récupération : expliqués simplement.',
-    },
-  };
 </script>
 
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -98,9 +87,10 @@
     <Checklist />
   {:else if view === 'lettre'}
     <Letter />
-  {:else if upcoming[view]}
-    {@const u = upcoming[view]!}
-    <Upcoming title={u.title} milestone={u.milestone} summary={u.summary} />
+  {:else if view === 'regles'}
+    <Rules />
+  {:else if view === 'pratiques'}
+    <Practices />
   {:else}
     <Home />
   {/if}

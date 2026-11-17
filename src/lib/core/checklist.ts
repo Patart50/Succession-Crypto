@@ -132,7 +132,7 @@ export const CHECKLIST: readonly ChecklistTheme[] = [
       {
         id: 'declarations-a-jour',
         title: 'Vos déclarations liées aux cryptos sont à jour',
-        detail: 'Comptes ouverts à l’étranger, plus-values de cession. Le détail, avec les sources officielles, viendra dans la section « Règles françaises ».',
+        detail: 'Comptes ouverts à l’étranger, plus-values de cession. Le détail, avec les sources officielles, est dans la section « Règles françaises ».',
       },
       {
         id: 'historique-conserve',
