@@ -3,6 +3,7 @@
  * À l'import, tout champ texte passe par le détecteur de secrets ; au moindre défaut, le fichier entier
  * est refusé avec un message précis, qui ne répète jamais le contenu refusé.
  */
+import { ITEM_IDS } from './checklist';
 import { detectInFields, detectSecret, type SecretKind } from './seed';
 import {
   ACCESS_CONTACTS,
@@ -141,7 +142,8 @@ export function parseBackup(text: string): ParseResult {
     const checklist: Record<string, boolean> = {};
     for (const k of checkKeys) {
       const v = doc.checklist[k];
-      if (!/^[a-z0-9-]{1,60}$/.test(k) || typeof v !== 'boolean') throw new Invalid('Checklist : point invalide.');
+      if (!ITEM_IDS.has(k)) throw new Invalid(`Checklist : point inconnu « ${k.slice(0, 40)} ».`);
+      if (typeof v !== 'boolean') throw new Invalid('Checklist : chaque point doit valoir true ou false.');
       checklist[k] = v;
     }
 

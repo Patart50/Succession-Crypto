@@ -10,7 +10,7 @@ function sample(): SuccessionData {
   d.inventaire = exampleEntries();
   d.inventaire[1].montant = 'environ 0,5 BTC';
   d.reglages.montantsActives = true;
-  d.checklist = { 'inventaire-date': true, 'notaire-informe': false };
+  d.checklist = { 'inventaire-exporte': true, 'notaire-informe': false };
   d.lettre = { nomAffiche: 'Prénom N.', notaire: 'Maître X' };
   return d;
 }
@@ -64,7 +64,8 @@ describe('parseBackup : refus', () => {
   it('texte trop long', () => expectError(doc((d) => (d.inventaire[0].notes = 'a'.repeat(1001))), '1000 caractères'));
   it('identifiants en double', () => expectError(doc((d) => (d.inventaire[1].id = d.inventaire[0].id)), 'même identifiant'));
   it('réglage invalide', () => expectError(doc((d) => (d.reglages.montantsActives = 'oui')), 'true ou false'));
-  it('checklist invalide', () => expectError(doc((d) => (d.checklist['Point Libre'] = true)), 'Checklist'));
+  it('point de checklist inconnu', () => expectError(doc((d) => (d.checklist['point-libre'] = true)), 'point inconnu'));
+  it('point de checklist non booléen', () => expectError(doc((d) => (d.checklist['passphrase'] = 'oui')), 'true ou false'));
   it('champ de lettre inconnu', () => expectError(doc((d) => (d.lettre.adresseSeed = '')), 'champ inconnu'));
 });
 
