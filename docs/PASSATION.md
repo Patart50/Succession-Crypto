@@ -6,22 +6,22 @@
 - J2 : inventaire v0.2.0, PR #2 fusionnée (D-010 validée). Formulaire et liste des emplacements, détecteur de secrets, sauvegarde JSON v1 avec import strict, indicateur « Non exporté », avertissement à la fermeture, réglage des montants désactivé par défaut, exemple fictif.
 - Correctif v0.2.1, PR #3 fusionnée : seed coupée entre deux champs, seuls ces deux champs sont effacés (D-011) ; tests de seed de 24 mots coupée.
 - J3 : checklist v0.3.0, PR #4 fusionnée (D-012 acceptée avec la fusion) : 18 points en 7 thèmes, impression, export TXT.
-- J4 : lettre d'intention v0.4.0 en PR (branche `j4-lettre`) : quatre champs gardés par le détecteur, structure imposée, conseils aux héritiers, impression sur une page A4, export TXT (D-013, à valider).
-- Dépôt renommé en `succession-crypto` (17 nov. 2026). Page blanche le 17 nov. : Pages était sur « Deploy from a branch », le déploiement brut de GitHub a écrasé le nôtre ; redéploiement relancé. Même problème après la fusion de la PR #4 (la source était encore « Deploy from a branch ») : redéploiement relancé à nouveau.
+- J4 : lettre d'intention v0.4.0, PR #5 fusionnée (D-013 acceptée avec la fusion).
+- J5 : règles françaises et bonnes pratiques v0.5.0 en PR (branche `j5-contenu`) : 7 règles sourcées (Légifrance, BOFiP, impots.gouv.fr) vérifiées le 17 nov. 2026, 7 fiches pédagogiques, écran « En préparation » supprimé (D-014, à valider).
+- Dépôt renommé en `succession-crypto` (17 nov. 2026). Page blanche le 17 nov. : Pages était sur « Deploy from a branch », le déploiement brut de GitHub a écrasé le nôtre ; redéploiement relancé. Même problème après la fusion de la PR #4 (la source était encore « Deploy from a branch ») : redéploiement relancé à nouveau. Source passée sur « GitHub Actions » ensuite : la fusion de la PR #5 n'a déclenché que notre déploiement (constaté le 17 nov.).
 
-## Vérifié avant la PR J4
-- check, 96 tests et build verts.
-- Chromium : axe-core WCAG 2 AA sans violation (lettre vide, remplie, après refus ; clair et sombre ; 1280 et 375 px) ; scénarios J1 à J3 toujours verts.
-- Scénario J4 : avertissements, seed collée dans un champ vide effacée (aussi à l'écran), seed coupée entre deux champs, contenu de la lettre, export TXT, lettre dans la sauvegarde puis restaurée, impression de la seule lettre (PDF A4 d'une page vérifié) ; stockage vide ; aucune requête externe.
+## Vérifié avant la PR J5
+- check, 165 tests et build verts (dont : chaque règle a une source https sur un domaine admis, versionnée et datée ; aucun texte ne déclenche le détecteur ; « 4 lettres suffisent » vérifié sur les deux listes BIP39).
+- Chaque règle relue contre sa source le 17 nov. 2026 (WebFetch des pages Légifrance, BOFiP et impots.gouv.fr citées).
+- Chromium : axe-core WCAG 2 AA sans violation (règles, pratiques, accueil ; clair et sombre ; 1280 et 375 px) ; scénarios J1 à J4 toujours verts ; 10 liens de source officiels en nouvel onglet ; aucune requête externe.
 
 ## À faire par Arnaud
-1. **Settings → Pages → Source : « GitHub Actions ».** Toujours sur « Deploy from a branch » au 17 nov. 12 h : chaque fusion redonne une page blanche jusqu'à ce que Claude relance le déploiement.
-2. Relire et fusionner la PR J4 (valider D-013).
+1. Relire les règles françaises (écran « Règles françaises ») et fusionner la PR J5 (valider D-014).
 
 ## Prochaine étape (Claude)
-J5 sur la branche `j5-contenu` : règles françaises sourcées (Légifrance, BOFiP, chaque règle datée, rien de mémoire, D-005) et fiches de bonnes pratiques (D-007).
+J6 sur la branche `j6-v1` : relecture complète (textes, accessibilité au clavier et au lecteur d'écran, impression), page « À propos » sans la mention « version de développement », version 1.0.0 ; Arnaud tague `v1.0.0` et crée la release.
 
 ## Points d'attention
-- J5 : vérifier chaque règle fiscale sur Légifrance/BOFiP, aucune affirmation de mémoire.
+- Règles françaises : revérifier chaque source et mettre à jour `RULES_VERIFIED` à chaque version (D-014).
 - Chaque PR : aucune requête externe, aucune écriture en stockage navigateur.
 - `npm audit` : 2 alertes faibles (`deepmerge` via `@sveltejs/vite-plugin-svelte`), outil de build uniquement.

@@ -39,7 +39,8 @@
   </p>
 
   <p class="muted small">
-    Version de développement : l'<a href="#inventaire">inventaire</a>, la <a href="#checklist">checklist</a> et la <a href="#lettre">lettre</a> sont disponibles ; les règles françaises et les bonnes pratiques arrivent dans la prochaine version. Méthode et limites :
+    Pour commencer : l'<a href="#inventaire">inventaire</a>, puis la <a href="#checklist">checklist</a> et la <a href="#lettre">lettre</a>. Les
+    <a href="#regles">règles françaises</a> sont sourcées et datées. Méthode et limites :
     <a href="#a-propos">À propos</a>.
   </p>
 </section>
