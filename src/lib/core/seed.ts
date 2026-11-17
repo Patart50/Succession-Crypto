@@ -85,14 +85,23 @@ export function detectSecret(text: string): SecretKind | null {
  * dans les deux ordres, pour refuser une phrase de récupération coupée en deux champs quelconques.
  */
 export function detectInFields(values: readonly string[]): SecretKind | null {
-  const filled = values.filter((v) => v.trim() !== '');
-  for (const v of filled) {
+  return findSecretFields(values)?.kind ?? null;
+}
+
+/**
+ * Comme detectInFields, mais indique aussi les champs en cause (indices dans `values`) :
+ * un seul champ s'il contient le secret à lui seul, sinon la paire qui le forme une fois réunie.
+ * Le formulaire n'efface que ces champs (succession D-011).
+ */
+export function findSecretFields(values: readonly string[]): { kind: SecretKind; fields: number[] } | null {
+  const filled = values.map((v, i) => ({ v, i })).filter((x) => x.v.trim() !== '');
+  for (const { v, i } of filled) {
     const kind = detectSecret(v);
-    if (kind) return kind;
+    if (kind) return { kind, fields: [i] };
   }
-  for (let i = 0; i < filled.length; i++) {
-    for (let j = 0; j < filled.length; j++) {
-      if (i !== j && looksLikeSeed(`${filled[i]}\n${filled[j]}`)) return 'seed';
+  for (const a of filled) {
+    for (const b of filled) {
+      if (a.i !== b.i && looksLikeSeed(`${a.v}\n${b.v}`)) return { kind: 'seed', fields: [a.i, b.i].sort((x, y) => x - y) };
     }
   }
   return null;

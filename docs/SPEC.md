@@ -1,6 +1,6 @@
 # succession-crypto — Spécification v0.1
 
-Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-010).
+Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-011).
 Dépôt : github.com/Patart50/succession-crypto — licence AGPL-3.0.
 
 ## 1. Objectif
@@ -55,7 +55,7 @@ Une ligne par « emplacement » :
 | Procédure décès de la plateforme connue | oui / non / sans objet | non |
 | Notes | texte libre | non |
 
-Tous les champs texte passent par le détecteur de secrets à chaque frappe ; une saisie suspecte est effacée sur-le-champ (D-001, D-010). À l'enregistrement, l'emplacement entier est vérifié (secret coupé entre deux champs) ; en cas de refus, tous les champs texte du formulaire sont effacés.
+Tous les champs texte passent par le détecteur de secrets à chaque frappe ; une saisie suspecte est effacée sur-le-champ (D-001, D-010). À l'enregistrement, l'emplacement entier est vérifié (secret coupé entre deux champs) ; en cas de refus, seuls les deux champs qui forment le secret une fois réunis sont effacés et nommés dans le message, les autres saisies sont gardées (D-011).
 
 Longueurs maximales : nom 80, actifs 200, montant 60, précision 200, notes 1 000 caractères. Le champ « Procédure décès » n'apparaît que pour une plateforme centralisée (sinon « sans objet »). Masquer le champ montant efface les montants saisis, après confirmation. Un exemple entièrement fictif (« Plateforme A », « Wallet matériel 1 ») peut être chargé quand l'inventaire est vide.
 
@@ -133,11 +133,11 @@ Code : `src/lib/core/seed.ts`. Listes : `src/lib/core/wordlists/` (fichiers offi
 
 **Clé privée.** Refus d'une chaîne de 64 caractères hexadécimaux (avec ou sans 0x), d'une clé WIF, d'une clé étendue (xprv, yprv, zprv, tprv…) ou d'une chaîne base58 de 80 caractères ou plus (clé Solana). Les adresses publiques sont acceptées.
 
-**Plusieurs champs.** À l'enregistrement et à l'import, chaque champ est vérifié seul, puis chaque paire de champs mise bout à bout dans les deux ordres.
+**Plusieurs champs.** À l'enregistrement et à l'import, chaque champ est vérifié seul, puis chaque paire de champs mise bout à bout dans les deux ordres. Pour une seed de 24 mots (Ledger par défaut), cela couvre un découpage en 2, 3 ou 4 champs : deux morceaux réunis font toujours au moins 12 mots.
 
 **Mesures.** Aucun faux positif sur la prose de la documentation du programme (358 paragraphes, environ 18 000 mots, français et anglais). Seul un bloc de code Svelte, rempli de mots anglais, est signalé : sans conséquence pour des notes d'utilisateur.
 
-**Limites assumées.** Une phrase coupée en trois champs ou plus, ou comportant deux fautes de frappe ou plus, n'est pas détectée ; un mot de passe ou un code PIN ne peut pas être reconnu. Le détecteur est un garde-fou, pas une garantie : l'interface demande de ne jamais saisir de secret.
+**Limites assumées.** Une phrase de 12 mots coupée en trois champs ou plus, une phrase de 24 mots coupée en cinq champs ou plus, ou comportant deux fautes de frappe ou plus, n'est pas détectée ; un mot de passe ou un code PIN ne peut pas être reconnu. Le détecteur est un garde-fou, pas une garantie : l'interface demande de ne jamais saisir de secret.
 
 Message : il explique pourquoi c'est refusé et rappelle qu'un secret ne doit jamais être saisi sur un ordinateur ; il ne répète jamais la saisie. Le contenu refusé n'est ni conservé ni journalisé.
 
