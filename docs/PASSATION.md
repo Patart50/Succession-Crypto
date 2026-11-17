@@ -8,7 +8,7 @@
 - J3 : checklist v0.3.0, PR #4 fusionnée (D-012 acceptée avec la fusion) : 18 points en 7 thèmes, impression, export TXT.
 - J4 : lettre d'intention v0.4.0, PR #5 fusionnée (D-013 acceptée avec la fusion).
 - J5 : règles françaises et bonnes pratiques v0.5.0 en PR (branche `j5-contenu`) : 7 règles sourcées (Légifrance, BOFiP, impots.gouv.fr) vérifiées le 17 nov. 2026, 7 fiches pédagogiques, écran « En préparation » supprimé (D-014, à valider).
-- Dépôt renommé en `succession-crypto` (17 nov. 2026). Page blanche le 17 nov. : Pages était sur « Deploy from a branch », le déploiement brut de GitHub a écrasé le nôtre ; redéploiement relancé. Même problème après la fusion de la PR #4 (la source était encore « Deploy from a branch ») : redéploiement relancé à nouveau.
+- Dépôt renommé en `succession-crypto` (17 nov. 2026). Page blanche le 17 nov. : Pages était sur « Deploy from a branch », le déploiement brut de GitHub a écrasé le nôtre ; redéploiement relancé. Même problème après la fusion de la PR #4 (la source était encore « Deploy from a branch ») : redéploiement relancé à nouveau. Source passée sur « GitHub Actions » ensuite : la fusion de la PR #5 n'a déclenché que notre déploiement (constaté le 17 nov.).
 
 ## Vérifié avant la PR J5
 - check, 165 tests et build verts (dont : chaque règle a une source https sur un domaine admis, versionnée et datée ; aucun texte ne déclenche le détecteur ; « 4 lettres suffisent » vérifié sur les deux listes BIP39).
@@ -16,8 +16,7 @@
 - Chromium : axe-core WCAG 2 AA sans violation (règles, pratiques, accueil ; clair et sombre ; 1280 et 375 px) ; scénarios J1 à J4 toujours verts ; 10 liens de source officiels en nouvel onglet ; aucune requête externe.
 
 ## À faire par Arnaud
-1. **Settings → Pages → Source : « GitHub Actions ».** Sinon page blanche après chaque fusion.
-2. Relire les règles françaises (écran « Règles françaises ») et fusionner la PR J5 (valider D-014).
+1. Relire les règles françaises (écran « Règles françaises ») et fusionner la PR J5 (valider D-014).
 
 ## Prochaine étape (Claude)
 J6 sur la branche `j6-v1` : relecture complète (textes, accessibilité au clavier et au lecteur d'écran, impression), page « À propos » sans la mention « version de développement », version 1.0.0 ; Arnaud tague `v1.0.0` et crée la release.
