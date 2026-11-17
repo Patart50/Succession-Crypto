@@ -4,7 +4,7 @@ Préparez la transmission de vos cryptos à vos proches, **sans jamais saisir de
 
 Site : https://patart50.github.io/succession-crypto/
 
-> Version de développement (0.3.0) : l'inventaire et la checklist sont disponibles ; la lettre arrive dans une prochaine version.
+> Version de développement (0.4.0) : l'inventaire, la checklist et la lettre sont disponibles ; les règles françaises et les bonnes pratiques arrivent dans la prochaine version.
 
 ## Principes
 
