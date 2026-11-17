@@ -4,7 +4,6 @@ Préparez la transmission de vos cryptos à vos proches, **sans jamais saisir de
 
 Site : https://patart50.github.io/succession-crypto/
 
-> Version de développement (0.5.0) : tous les écrans sont disponibles ; la v1.0.0 suivra une relecture complète.
 
 ## Principes
 

@@ -1,6 +1,6 @@
-# succession-crypto — Spécification v0.1
+# succession-crypto — Spécification v1.0
 
-Statut : v0.1, 16 nov. 2026 (J0 : spec et décisions ; J1 : squelette ; J2 : inventaire ; J3 : checklist ; J4 : lettre ; J5 : règles et bonnes pratiques). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-014).
+Statut : v1.0, 17 nov. 2026 (J0 à J6 livrés ; version 1.0.0). Décisions : [DECISIONS.md](DECISIONS.md) (succession D-001 à D-015).
 Dépôt : github.com/Patart50/succession-crypto — licence AGPL-3.0.
 
 ## 1. Objectif
@@ -21,6 +21,7 @@ Public : détenteur particulier, non expert, résidant fiscal en France.
 
 - Stack du programme : Svelte 5 + Vite + TypeScript + Vitest ; commun-crypto épinglé par tag (thème, polices, `Support`, plugin de service worker) (D-008). Tag utilisé : `v1.2.0`.
 - 100 % client-side, **aucun appel réseau, même opt-in**. Hors ligne via service worker, qui ne met en cache que le code de l'outil. Aucun CDN.
+- Politique de sécurité du contenu (CSP) ajoutée au build : `connect-src 'self'`, scripts, styles et polices du seul site de l'outil, aucun envoi de formulaire (D-015). Le navigateur bloque toute exfiltration, même par un code compromis.
 - Français, thème clair/sombre (automatique par défaut, choix non mémorisé, D-009), WCAG 2 AA.
 - Aucune donnée réelle dans le dépôt : exemples fictifs (« Plateforme A », « Wallet matériel 1 »).
 - Auteur et soutien : pied de page « Créé par Arnaud (Patart50) · Soutenir le projet », section dans « À propos et limites » et le README, `.github/FUNDING.yml`.
@@ -162,9 +163,9 @@ Message : il explique pourquoi c'est refusé et rappelle qu'un secret ne doit ja
 
 ## 7. Écrans
 
-Navigation par ancre (`src/lib/router.ts`) ; les ancres ne nomment que des écrans, jamais des données.
+Navigation par ancre (`src/lib/router.ts`) ; les ancres ne nomment que des écrans, jamais des données. Chaque écran donne son titre au document (« Lettre · succession-crypto »). Le lien « Aller au contenu » place le focus sans changer d'ancre.
 
-1. Accueil `#accueil` : ce que fait l'outil, ce qu'il ne fait pas, rappel « rien n'est enregistré : exportez avant de fermer ».
+1. Accueil `#accueil` : ce que fait l'outil, ce qu'il ne fait pas, rappel « rien n'est enregistré : exportez avant de fermer », parcours en quatre étapes (inventaire, sauvegarde, checklist, lettre).
 2. Inventaire `#inventaire`. 3. Checklist `#checklist`. 4. Lettre `#lettre` (aperçu imprimable). 5. Règles françaises `#regles`. 6. Bonnes pratiques `#pratiques`. 7. À propos et limites `#a-propos` (dont Auteur et soutien), lien en pied de page.
 
 Tous les écrans sont livrés depuis la v0.5.0 (l'écran « En préparation » des jalons précédents est supprimé).
@@ -181,8 +182,10 @@ Indicateur « Non exporté » dans l'en-tête et avertissement `beforeunload` du
 | J3 | Checklist, impression, export TXT | fait (v0.3.0) |
 | J4 | Lettre, impression, export TXT | fait (v0.4.0) |
 | J5 | Règles françaises sourcées, bonnes pratiques | fait (v0.5.0) |
-| J6 | Accessibilité, relecture, v1.0.0 | |
+| J6 | Accessibilité, relecture, sécurité, v1.0.0 | fait (v1.0.0) |
 
 ## 9. Critères d'acceptation (chaque PR)
 
 `check`, tests et build verts ; vérification dans Chromium avec axe-core (tous les écrans, clair et sombre, 1280 et 375 px) ; aucune requête réseau externe (vérifiée) ; aucune écriture dans localStorage, sessionStorage, IndexedDB ni cookie ; test de checksum des adresses de don vert ; QR codes décodés identiques ; ouverture hors ligne après une première visite.
+
+Depuis la v1.0.0, en plus : axe-core avec les bonnes pratiques (`best-practice`, WCAG 2.2 AA), un seul `h1` et aucun saut de niveau de titre par écran, focus visible sur chaque élément atteint au clavier, affichage à 320 px sans défilement horizontal, application intacte sous la CSP (seule une connexion externe volontaire est bloquée).

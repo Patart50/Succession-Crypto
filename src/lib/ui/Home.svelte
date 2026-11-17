@@ -38,9 +38,18 @@
     >
   </p>
 
+  <section class="steps" aria-labelledby="steps-title">
+    <h2 id="steps-title">En quatre étapes</h2>
+    <ol>
+      <li><a href="#inventaire"><strong>Inventaire</strong></a> : chaque plateforme et chaque wallet, et à qui s'adresser. Pas de secret.</li>
+      <li><strong>Sauvegarde</strong> : exportez le fichier depuis l'inventaire et rangez-le en lieu sûr ; c'est lui qui vous permettra de reprendre.</li>
+      <li><a href="#checklist"><strong>Checklist</strong></a> : sauvegardes, personnes de confiance, notaire, plateformes, révision.</li>
+      <li><a href="#lettre"><strong>Lettre</strong></a> : imprimez-la, datez-la, signez-la, rangez-la là où vos proches la chercheront.</li>
+    </ol>
+  </section>
+
   <p class="muted small">
-    Pour commencer : l'<a href="#inventaire">inventaire</a>, puis la <a href="#checklist">checklist</a> et la <a href="#lettre">lettre</a>. Les
-    <a href="#regles">règles françaises</a> sont sourcées et datées. Méthode et limites :
+    Pour comprendre : les <a href="#regles">règles françaises</a>, sourcées et datées, et les <a href="#pratiques">bonnes pratiques</a>. Méthode et limites :
     <a href="#a-propos">À propos</a>.
   </p>
 </section>
@@ -79,6 +88,12 @@
     padding-left: 1.2rem;
     display: grid;
     gap: 0.4rem;
+  }
+  .steps ol {
+    margin: 0;
+    padding-left: 1.4rem;
+    display: grid;
+    gap: 0.45rem;
   }
   .small {
     font-size: 0.86rem;

@@ -1,5 +1,13 @@
 # Notes de version
 
+## 1.0.0 — Première version stable (J6)
+
+- Accueil : parcours en quatre étapes (inventaire, sauvegarde, checklist, lettre).
+- Sécurité : politique de sécurité du contenu ; le navigateur bloque toute connexion vers un autre site que celui de l'outil.
+- Accessibilité : chaque écran donne son titre à l'onglet (annoncé par les lecteurs d'écran) ; le lien « Aller au contenu » ne fait plus quitter l'écran en cours ; audit complet au clavier, à 320 px et avec les bonnes pratiques d'axe-core.
+- Robustesse vérifiée : fichiers d'import vides, binaires ou piégés refusés ; texte HTML importé affiché comme texte ; 500 emplacements importés et affichés en moins d'une seconde.
+- Page « À propos » : date de vérification des règles, liens externes sans transmission de données.
+
 ## 0.5.0 — Règles françaises et bonnes pratiques (J5)
 
 - Règles françaises : 7 règles sur la succession de cryptos (périmètre, évaluation au jour du décès, délai de déclaration, dispense, notaire, prix d'acquisition de l'héritier, comptes à l'étranger), chacune avec sa source officielle (Légifrance, BOFiP, impots.gouv.fr), sa version et sa date de vérification.
