@@ -1,5 +1,10 @@
 # Notes de version
 
+## 0.2.1 — Effacement ciblé
+
+- Une phrase de récupération coupée entre deux champs n'efface plus tout le formulaire : seuls les deux champs en cause sont vidés et nommés, le reste de la saisie est gardé.
+- Tests ajoutés pour une phrase de 24 mots (Ledger) coupée en 2, 3 ou 4 champs.
+
 ## 0.2.0 — Inventaire (J2)
 
 - Inventaire : un emplacement par plateforme ou wallet, avec ses actifs, la personne ou le document à qui s'adresser, une précision, la procédure décès de la plateforme et des notes. Ajout, modification, suppression ; exemple fictif pour découvrir l'outil.

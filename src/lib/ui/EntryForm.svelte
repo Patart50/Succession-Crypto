@@ -5,7 +5,8 @@
    */
   import { onMount, untrack } from 'svelte';
   import { ACCESS_CONTACTS, DEATH_PROCEDURE, ENTRY_TYPES, MAX_LENGTH, TEXT_FIELDS, emptyEntry, type Entry, type TextField } from '../core/model';
-  import { detectInFields, detectSecret, secretMessage } from '../core/seed';
+  import { detectSecret, findSecretFields, secretMessage } from '../core/seed';
+  import { FIELD_LABELS } from '../core/backup';
 
   let {
     initial = null,
@@ -55,11 +56,19 @@
   function submit(e: SubmitEvent) {
     e.preventDefault();
     const fields = TEXT_FIELDS.filter((f) => f !== 'montant' || amountsEnabled);
-    const kind = detectInFields(fields.map(value));
-    if (kind) {
-      // Secret coupé entre plusieurs champs : tous les champs texte sont effacés.
-      for (const f of fields) clear(f);
-      alert = `${secretMessage(kind)} Tous les champs texte ont été effacés.`;
+    const found = findSecretFields(fields.map(value));
+    if (found) {
+      // Secret coupé entre deux champs : seuls ces deux champs sont effacés (succession D-011).
+      const culprits = found.fields.map((i) => fields[i]);
+      for (const f of culprits) {
+        clear(f);
+        errors[f] = secretMessage(found.kind);
+      }
+      const names = culprits.map((f) => `« ${FIELD_LABELS[f]} »`).join(' et ');
+      alert =
+        culprits.length > 1
+          ? `${secretMessage(found.kind)} Les champs ${names}, qui la formaient une fois réunis, ont été effacés.`
+          : `${secretMessage(found.kind)} Le champ ${names} a été effacé.`;
       heading.focus();
       return;
     }

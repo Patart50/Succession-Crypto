@@ -3,16 +3,17 @@
 ## État (16 nov. 2026)
 - J0 : SPEC v0.1 et décisions D-001 à D-008 validées par Arnaud.
 - J1 : squelette v0.1.0, PR #1 fusionnée (D-009, thème non mémorisé, acceptée avec la fusion). Site : https://patart50.github.io/succession-Crypto/
-- J2 : inventaire v0.2.0 en PR (branche `j2-inventaire`). Formulaire et liste des emplacements, détecteur de secrets (D-010, à valider), sauvegarde JSON v1 avec import strict, indicateur « Non exporté », avertissement à la fermeture, réglage des montants désactivé par défaut, exemple fictif.
+- J2 : inventaire v0.2.0, PR #2 fusionnée (D-010 validée). Formulaire et liste des emplacements, détecteur de secrets, sauvegarde JSON v1 avec import strict, indicateur « Non exporté », avertissement à la fermeture, réglage des montants désactivé par défaut, exemple fictif.
+- Correctif v0.2.1 en PR (branche `j2-effacement-cible`) : seed coupée entre deux champs, seuls ces deux champs sont effacés (D-011, validée) ; tests de seed de 24 mots coupée.
 
 ## Vérifié avant la PR J2
-- check, 69 tests et build verts.
+- check, 69 tests et build verts (76 avec le correctif v0.2.1).
 - Détecteur : aucun faux positif sur 358 paragraphes de prose du programme (environ 18 000 mots).
 - Chromium : axe-core WCAG 2 AA sans violation sur tous les écrans et tous les états de l'inventaire (vide, exemple, formulaire, refus, import refusé), en clair et en sombre, à 1280 et 375 px, sans défilement horizontal.
 - Scénario : seed collée ou tapée effacée ; clé privée effacée ; seed coupée entre deux champs refusée ; export, rechargement (rien de gardé), import ; fichier piégé refusé sans répéter son contenu ; montants effacés en masquant le champ ; avertissement à la fermeture ; stockage du navigateur vide ; aucune requête externe.
 
 ## À faire par Arnaud
-1. Relire et fusionner la PR J2 (valider D-010).
+1. Fusionner la PR du correctif v0.2.1 (D-011).
 2. Finir de renommer le dépôt : il s'appelle `succession-Crypto` (C majuscule). Le renommer exactement `succession-crypto` (Settings → General). Tant que ce n'est pas fait, le site répond seulement sur `/succession-Crypto/` et les liens du README et des métadonnées (en minuscules) mènent à une page 404.
 
 ## Prochaine étape (Claude)

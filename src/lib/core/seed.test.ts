@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { detectInFields, detectSecret, looksLikePrivateKey, looksLikeSeed, normalize, secretMessage, WORDLISTS } from './seed';
+import { detectInFields, detectSecret, findSecretFields, looksLikePrivateKey, looksLikeSeed, normalize, secretMessage, WORDLISTS } from './seed';
 
 const file = (name: string) => readFileSync(new URL(`./wordlists/${name}`, import.meta.url));
 const sha256 = (buf: Buffer) => createHash('sha256').update(buf).digest('hex');
@@ -100,6 +100,31 @@ describe('detectInFields', () => {
   });
   it('champs ordinaires', () => {
     expect(detectInFields(['Plateforme A', 'BTC, ETH', '', 'Le notaire a la liste.', 'Procédure décès connue.'])).toBeNull();
+  });
+});
+
+describe('findSecretFields', () => {
+  const w = VECTOR_12.split(' ');
+  it('désigne la paire en cause, et elle seule', () => {
+    const r = findSecretFields(['Plateforme A', w.slice(0, 6).join(' '), 'BTC', 'Le notaire a la liste.', w.slice(6).join(' ')]);
+    expect(r).toEqual({ kind: 'seed', fields: [1, 4] });
+  });
+  it('désigne un champ seul quand il suffit', () => {
+    expect(findSecretFields(['Plateforme A', VECTOR_12])).toEqual({ kind: 'seed', fields: [1] });
+  });
+  it('rien à signaler', () => {
+    expect(findSecretFields(['Plateforme A', 'BTC'])).toBeNull();
+  });
+});
+
+describe('seed de 24 mots (Ledger) coupée', () => {
+  const w24 = VECTOR_24.split(' ');
+  const parts = (n: number) => Array.from({ length: n }, (_, i) => w24.slice((i * 24) / n, ((i + 1) * 24) / n).join(' '));
+  it.each([2, 3, 4])('en %i champs : détectée', (n) => {
+    expect(detectInFields(parts(n))).toBe('seed');
+  });
+  it('en 6 champs de 4 mots : non détectée (limite documentée)', () => {
+    expect(detectInFields(parts(6))).toBeNull();
   });
 });
 
